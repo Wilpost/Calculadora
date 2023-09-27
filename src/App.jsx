@@ -9,41 +9,68 @@ import { Screen } from './components/Screen'
 
 const App = () => {
   const [inputValue, setInputValue] = useState({
-    operation: '25+25',
-    result: '50'
+    operation: '',
+    result: ''
   })
 
-  const handleClick = value => {
-    setInputValue({
-      operation: ''
-    })
+  const handleClick = (value) => {
+    if (inputValue.result !== '' && value === '+' | value === '/' | value === '*' | value === '-' | value === '%') {
+      setInputValue({ ...inputValue, operation: inputValue.operation + inputValue.result + value })
+      return
+    }
 
-    setInputValue({
-      ...inputValue,
-      operation: inputValue.operation.replace(
-        inputValue.operation,
-        inputValue.operation + value
-      )
-    })
+    if (value === '+/-') {
+      if (inputValue.operation === '' | inputValue.operation === '0') return
+
+      if (inputValue.operation.substring(0, 1) === '-') {
+        setInputValue({ ...inputValue, operation: inputValue.operation.slice(1, inputValue.operation.length) })
+      } else {
+        setInputValue({ ...inputValue, operation: `-${inputValue.operation}` })
+      }
+    } else if (inputValue.operation === '0') {
+      setInputValue({
+        ...inputValue,
+        operation: inputValue.operation = '' + value
+      })
+    } else {
+      setInputValue({
+        ...inputValue,
+        operation: inputValue.operation + value,
+        result: ''
+      })
+    }
   }
 
   const clean = () => {
-    setInputValue({ operation: '', result: '' })
+    setInputValue({ operation: '0', result: '' })
   }
 
   const clear = () => {
     setInputValue({
       ...inputValue,
       operation: inputValue.operation.substring(
-        0,
+        '0',
         inputValue.operation.length - 1
       )
     })
   }
 
   const result = () => {
-    const res = eval(inputValue.operation)
-    setInputValue({ result: res })
+    let res
+    try {
+      if (inputValue.operation.includes('%')) {
+        const porcentaje = inputValue.operation.split('%')
+        res = eval(`${porcentaje[0]}*${porcentaje[1]}/100`)
+      } else {
+        res = eval(inputValue.operation)
+      }
+      setInputValue({ ...inputValue, operation: '', result: res })
+    } catch (error) {
+      setInputValue({
+        ...inputValue,
+        operation: 'Error'
+      })
+    }
   }
 
   return (
@@ -51,6 +78,7 @@ const App = () => {
       <Screen>
         <InputCalc
           result={inputValue.result}
+          checkResult={inputValue.result === '' ? '' : '='}
           operations={inputValue.operation}
         />
         <ButtonsClear
@@ -62,6 +90,7 @@ const App = () => {
       </Screen>
       <div className='wave-container' />
       <div className='wave' />
+      <div className='blur-ground' />
     </div>
   )
 }

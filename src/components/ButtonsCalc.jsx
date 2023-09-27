@@ -27,6 +27,15 @@ export const ButtonsClear = ({ setClean, setClear, setValue }) => {
           </button>
         </div>
         <button
+          onClick={e => handleDiv(e.target.value)}
+          id='btnClearAll'
+          className='btn-clear'
+          value='%'
+          type='button'
+        >
+          %
+        </button>
+        <button
           onClick={() => clearInput()}
           id='btnClearOne'
           className='btn-clear_two'
@@ -46,10 +55,10 @@ export const ButtonsClear = ({ setClean, setClear, setValue }) => {
   )
 }
 
-export const InputCalc = ({ operations, result }) => {
+export const InputCalc = ({ operations, result, checkResult }) => {
   return (
     <div className='opearations-container'>
-      <span className='operation-viewer'>{result}</span>
+      <span className='operation-viewer'>{result}{checkResult}</span>
       <span className='input-calc'>{operations}</span>
     </div>
   )
@@ -171,9 +180,9 @@ export const ButtonNums = ({ setValue, totalRes }) => {
           id='btnDiference'
           className='calc-btn__num'
           type='button'
-          value='.'
+          value='+/-'
         >
-          .
+          +/-
         </button>
       </div>
 
@@ -232,5 +241,6 @@ ButtonsClear.propTypes = {
 
 InputCalc.propTypes = {
   operations: PropTypes.string.isRequired,
+  checkResult: PropTypes.function,
   result: PropTypes.string.isRequired
 }
