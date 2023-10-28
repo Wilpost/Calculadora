@@ -12,6 +12,7 @@ const App = () => {
     operation: '',
     result: ''
   })
+  const [theme, setTheme] = useState(true)
 
   const handleClick = (value) => {
     if (inputValue.result !== '' && value === '+' | value === '/' | value === '*' | value === '-' | value === '%') {
@@ -73,6 +74,10 @@ const App = () => {
     }
   }
 
+  const setValueTheme = () => {
+    setTheme(!theme)
+  }
+
   return (
     <div className='container-calc'>
       <Screen>
@@ -87,6 +92,12 @@ const App = () => {
           setClean={clean}
         />
         <ButtonNums totalRes={result} setValue={handleClick} />
+        <div className={theme ? 'div-theme-lite' : 'div-theme-dark'}>
+          <h1>Hello World!</h1>
+        </div>
+        <div>
+          <button onClick={() => setValueTheme()} className='button-tema'><div className={theme ? 'ouline-lite' : 'ouline-dark'} /></button>
+        </div>
       </Screen>
       <div className='wave-container' />
       <div className='wave' />
