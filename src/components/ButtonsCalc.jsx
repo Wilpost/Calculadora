@@ -58,6 +58,7 @@ export const ButtonsClear = ({ setClean, setClear, setValue }) => {
 export const InputCalc = ({ operations, result, checkResult }) => {
   return (
     <div className='opearations-container'>
+      <h1>Hello World!</h1>
       <span className='operation-viewer'>{result}{checkResult}</span>
       <span className='input-calc'>{operations}</span>
     </div>
